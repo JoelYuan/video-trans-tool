@@ -89,7 +89,7 @@ python video-step1.py test.mp4
 ```
 segments_english/
 ├── audio.wav                              # 16kHz 单声道音频
-├── original.srt                            # 带 [角色:xxx] 标签的 SRT (需手动编辑)
+├── original.srt                            # 带 [Role: xxx] 标签的 SRT (需手动编辑)
 ├── metadata.json                           # 处理元数据
 └── segments/                               # 参考音频目录 (Step 1.5 生成)
     └── reference/
@@ -98,14 +98,14 @@ segments_english/
 ```
 
 ### 注意事项
-- `original.srt` 已自动添加 `[角色: 角色1]`、`[角色: 角色2]` 等占位标签，请手动修改为实际角色名
+- `original.srt` 已自动添加 `[Role: 角色1]`、`[Role: 角色2]` 等占位标签，请手动修改为实际角色名
 
 ### SRT 角色标签格式
 Step 1 自动生成带占位符的 SRT 文件，示例：
 ```
 1
 00:00:00,69 --> 00:00:03,21
-[角色: 角色1]
+[Role: 角色1]
 这是第一句台词。
 ```
 
@@ -322,7 +322,7 @@ video-trans-tool/
 ├── test_step2_single.py
 ├── segments_english/
 │   ├── audio.wav
-│   ├── original.srt        # 带 [角色: 角色N] 占位标签
+│   ├── original.srt        # 带 [Role: 角色N] 占位标签
 │   ├── english.srt         # 编辑后的英文SRT
 │   ├── voiceover.wav
 │   ├── metadata.json
