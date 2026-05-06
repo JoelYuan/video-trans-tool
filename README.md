@@ -336,3 +336,90 @@ video-trans-tool/
 │           └── ...
 └── ...
 ```
+
+---
+
+## 视频人音汇总.py
+
+**功能**: 视频音频提取 + 降噪 + ASR识别 + 音频片段截取与增强
+
+根据视频生成字幕文件，并根据字幕时间点截取音频片段（原始+增强）。
+
+```bash
+python 视频人音汇总.py <视频文件>
+```
+
+### 参数说明
+- 位置参数: 视频文件路径
+- `-o, --output`: 输出目录 (默认: 视频文件名_output)
+- `--whisper-model`: Whisper模型大小 (默认: medium)
+- `--whisper-device`: 运行设备 (auto/cpu/cuda)
+- `--whisper-model-path`: 本地Whisper模型路径
+- `--no-denoise`: 禁用降噪处理 (默认: 启用)
+- `--no-enhance`: 禁用音频增强处理 (默认: 启用)
+
+### 示例
+```bash
+# 基本用法
+python 视频人音汇总.py 1.mp4
+
+# 禁用降噪
+python 视频人音汇总.py 1.mp4 --no-denoise
+
+# 禁用音频增强
+python 视频人音汇总.py 1.mp4 --no-enhance
+```
+
+### 输出结构
+```
+视频文件名_output/
+├── audio.wav                    # 提取的原始音频
+├── audio_denoised.wav           # 降噪后的音频（用于ASR）
+├── original.srt                 # 识别的字幕文件
+├── wavcuts_original/            # 原始音频片段
+│   ├── seg_001_xxx.wav
+│   └── ...
+├── wavcuts_enhanced/            # 增强后的音频片段
+│   ├── seg_001_xxx_enhanced.wav
+│   └── ...
+├── concatenated.wav             # 拼接后的原始音频
+├── concatenated_enhanced.wav    # 拼接后的增强音频
+└── metadata.json                # 处理元数据
+```
+
+---
+
+## SRT视频剪辑.py
+
+**功能**: 根据SRT字幕文件的时间点截取并拼接视频
+
+读取任意视频和SRT文件（即使不对应），按SRT中的时间点截取视频片段并拼接。
+
+```bash
+python SRT视频剪辑.py <视频文件> <SRT文件>
+```
+
+### 参数说明
+- 位置参数:
+  - `video`: 输入视频文件路径
+  - `srt`: SRT字幕文件路径
+- `-o, --output`: 输出视频路径 (默认: 视频名_srtcuts.mp4)
+- `--min-gap`: 最小片段时长(秒)，短于此值的片段将延长至此长度 (默认: 0.3)
+
+### 示例
+```bash
+# 基本用法
+python SRT视频剪辑.py 1.mp4 1_output/original.srt
+
+# 指定输出文件
+python SRT视频剪辑.py 1.mp4 1_output/original.srt -o output.mp4
+
+# 设置最小片段时长
+python SRT视频剪辑.py 1.mp4 1_output/original.srt --min-gap 0.5
+```
+
+### 输出
+```
+1_srtcuts.mp4  # 截取并拼接的视频
+```
+```
